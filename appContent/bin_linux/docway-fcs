@@ -1,0 +1,139 @@
+#!/bin/bash
+#set -x
+# docway-fcs - control script for the DocWay File Conversion Service.
+#
+# This script is Copyright (C) 2006 3D Informatica Srl.
+
+##################################################################################################
+### Configurazioni script di avvio - INIZIO
+##################################################################################################
+
+# N.B.: E' richiesto Java8 per l'esecuzione del processo
+JAVA_COMMAND=/usr/bin/java
+
+# Massima dimensione della memoria heap per il FCS
+MAXHEAP=-Xmx128m
+
+FCSPID=/tmp/docway-fcs.pid
+
+NICE_LEVEL=10
+
+##################################################################################################
+### Configurazioni script di avvio - FINE
+##################################################################################################
+
+bindir=$(readlink -f $0)
+inst=${bindir%/*/*}
+jl=$inst/lib
+
+CLASSPATH="$inst/classes:$jl/*"
+
+# file di log in cui registrare gli errori di lancio del FCA
+LOG_FILE=$inst/logs/service.log
+
+JAVA_FLAGS=""
+
+
+# --- NO MORE CHANGES AFTER THIS LINE ---
+
+getpid() {
+	if [ -s $FCSPID ]; then
+		REALPID=`cat $FCSPID`
+	else
+		REALPID=`ps -ef | grep "fcs/lib"| grep -v grep | awk '{print $2}' | tr "\n" " "`
+		if [ -n "$REALPID" ]; then
+			echo "$REALPID" > $FCSPID
+		fi
+	fi
+}
+
+stop(){
+	getpid
+	
+	if [ -n "$REALPID" ] ; then 
+		echo -n "Stopping File Conversion Service..."
+		for i in $REALPID; do
+			kill $i 2> /dev/null && echo " [OK]" || echo " [FAILED]"
+		done
+	else
+		echo  "File Conversion Service already stopped"
+		exit 0 #LSB 4.1.0
+	fi
+	REALPID=""
+	rm -f $FCSPID;
+}
+
+start(){
+	getpid
+	
+	if [ -n "$REALPID" ] ; then
+		echo "File Conversion Service already started"
+		exit 0 #LSB 4.1.0
+	else
+		echo -n "Starting File Conversion Service..."
+		nohup nice -n $NICE_LEVEL $JAVA_COMMAND -classpath "$CLASSPATH" $MAXHEAP ${JAVA_FLAGS} it.tredi.fcs.docway.DocWayFcs > $LOG_FILE 2>&1 &
+		sleep 2
+		rm -f $FCSPID
+		
+		getpid
+		if [ -n $REALPID ]; then
+			echo " [OK]"
+		else
+			echo " [FAILED]"
+		fi
+	fi
+}
+
+start_debug(){
+	JAVA_FLAGS="${JAVA_FLAGS} -Xdebug -Xrunjdwp:transport=dt_socket,address=8007,server=y,suspend=y"
+	start
+}
+
+status(){
+	getpid
+
+	if [ -z "$REALPID" ] && [ -e $FCSPID ] ; then
+		echo -e "\rFile Conversion Service is not Running, but found pidfile!!"
+		exit 1 #LSB 4.1.0
+	elif [  -z "$REALPID" ] ; then
+		echo -e "\rFile Conversion Service is not Running"
+		exit 3 #LSB 4.1.0
+	elif [ -e $FCSPID  ]; then
+		echo -e "\rFile Conversion Service is Running PID [ $REALPID]"
+		exit 0 #LSB 4.1.0
+	else
+		echo -e "\rFile Conversion Service is Running PID [ $REALPID] but found no pidfile!!"
+		exit 0 #LSB 4.1.0
+	fi
+}
+
+
+case $1
+in
+	start)
+		start
+	;;
+
+	stop)
+		stop
+	;;
+
+	status)
+		status
+	;;
+
+	restart)
+		stop 
+		sleep 2
+		start
+	;;
+	
+	debug)
+		start_debug
+	;;
+
+	*)
+		echo "Usage: $0 {start|stop|status|restart|debug}"
+		exit 1
+	;;
+esac

@@ -1,0 +1,64 @@
+#
+# http://commons.apache.org/proper/commons-jcs/LocalCacheConfig.html
+#
+
+# DEFAULT CACHE REGION
+jcs.default=DC
+
+jcs.default.cacheattributes=org.apache.commons.jcs.engine.CompositeCacheAttributes
+
+# Numero massimo di oggetti che vengono mantenuti in memoria. Superato il limite vengono serializzati su disco (se attiva la serializzazione) o 
+# rimossi (inaccessibili all'applicazione)
+jcs.default.cacheattributes.MaxObjects=5000
+
+jcs.default.cacheattributes.MemoryCacheName=org.apache.commons.jcs.engine.memory.lru.LRUMemoryCache
+
+# Se disattivo non viene mai rimosso nessun oggetto dalla memoria (NO serializzazione su disco)
+jcs.default.cacheattributes.UseMemoryShrinker=false
+
+# Tempo di permanenza in memoria (espresso in secondi) dall'ultimo accesso all'oggetto. Superato il limite vengono serializzati su disco (se attiva la serializzazione) o 
+# rimossi (inaccessibili all'applicazione)
+jcs.default.cacheattributes.MaxMemoryIdleTimeSeconds=600
+
+# Intervallo di attivazione dello shrink (controllo oggetti da serializzare)
+jcs.default.cacheattributes.ShrinkerIntervalSeconds=30
+
+#jcs.default.cacheattributes.MaxSpoolPerRun=500
+
+jcs.default.elementattributes=org.apache.commons.jcs.engine.ElementAttributes
+
+# Determina se gli elementi devono essere serializzati o meno su disco
+jcs.default.elementattributes.isSpool=false
+
+# Definisce se l'oggetto serializzato deve essere mantenuto per sempre o eliminato in determinate condizioni (si vedano le properties successive)
+jcs.default.elementattributes.IsEternal=false
+
+# Tempo di permanenza dell'oggetto serializzato (espresso in secondi) dall'ultimo accesso. Superato il limite l'oggetto viene rimosso.
+jcs.default.elementattributes.IdleTime=1800
+
+# Tempo di permanenza dell'oggetto serializzato (espresso in secondi) dalla creazione dello stesso. Superato il limite l'oggetto viene rimosso.
+#jcs.default.elementattributes.MaxLife=21600
+
+
+# CONFIGURAZIONE PER SERIALIZZAZIONE OGGETTI SU DISCO
+
+jcs.auxiliary.DC=org.apache.commons.jcs.auxiliary.disk.indexed.IndexedDiskCacheFactory
+jcs.auxiliary.DC.attributes=org.apache.commons.jcs.auxiliary.disk.indexed.IndexedDiskCacheAttributes
+
+# Percorso assoluto su disco nel quale salvare gli oggetti serializzati (dovrebbe riferirsi ad una partizione su disco SSD per garantire adeguate performance)
+jcs.auxiliary.DC.attributes.DiskPath=/tmp/jcsfcs
+
+# Dimensione dell'area di memoria (espressa in numero di oggetti) sulla quale vengono spostati gli oggetti da accodare per la serializzazione su disco (default = 5000). Nel caso venga richiesto 
+# il caricamento di un oggetto in coda nell'area di purgatorio, questo viene ripristinato in memoria e non viene effettuata alcuna serializzazione su disco.
+jcs.auxiliary.DC.attributes.MaxPurgatorySize=10000
+
+# Numero massimo di chiavi che possono essere serializzate su disco (default = 5000). Superato il limite gli oggetti piu' vecchi vengono rimossi.
+jcs.auxiliary.DC.attributes.MaxKeySize=10000
+
+# Cancellazione dei dati serializzati all'avvio (visto che serializziamo delle selezioni e' bene mantenere attiva questa property visto che all'avvio di Tomcat selezioni prodotte
+# in precedenza sono comunque inutilizzabili dagli utenti).
+jcs.auxiliary.DC.attributes.ClearDiskOnStartup=true
+
+# Definisce il numero di eliminazioni dopo le quali ottimizzare il file di cache su disco (cancellazione dal file di vecchi oggetti). Di default questa property e' disattivata (-1)
+# e comporta il continuo aumento della dimensione del file (che sara' poi ottimizzato solamente in fase di shutdown).
+jcs.auxiliary.DC.attributes.OptimizeAtRemoveCount=5000

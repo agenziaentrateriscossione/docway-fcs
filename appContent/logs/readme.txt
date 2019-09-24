@@ -1,0 +1,1 @@
+directory contenente i logs applicativi

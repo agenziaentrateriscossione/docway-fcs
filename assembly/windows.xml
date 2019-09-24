@@ -1,0 +1,32 @@
+<!-- Assembly file per pacchetto DocWayFCS Windows -->
+
+<assembly
+		xmlns="http://maven.apache.org/ASSEMBLY/2.0.0"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
+
+	<id>windows</id>
+	<formats>
+		<format>zip</format>
+	</formats>
+	<componentDescriptors>
+		<componentDescriptor>assembly/component.xml</componentDescriptor>
+	</componentDescriptors>
+	<includeBaseDirectory>false</includeBaseDirectory>
+	<fileSets>
+		<fileSet>
+			<directory>appContent/bin_windows</directory>
+			<outputDirectory>docway-fcs/bin</outputDirectory>
+			<includes>
+				<include>**/*</include>
+			</includes>
+		</fileSet>
+	</fileSets>
+	<files>
+		<file>
+			<source>src/main/resources/log4j2.xml_windows</source>
+			<outputDirectory>docway-fcs/classes</outputDirectory>
+			<destName>log4j2.xml</destName>
+		</file>
+	</files>
+</assembly>
