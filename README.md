@@ -4,7 +4,7 @@
 
 #### Servizio di estrazione testo e conversione di files per applicativo DocWay.
 ___
-FCA (File Conversion Agent) e FCS (File Conversion Service) consistono in due processi che permettono l'**estrazione del testo da files** e la **conversione di files in un differente formato** (es. da DOC a PDF). 
+[FCA](https://github.com/agenziaentrateriscossione/docway-fca) (File Conversion Agent) e FCS (File Conversion Service) consistono in due processi che permettono l'**estrazione del testo da files** e la **conversione di files in un differente formato** (es. da DOC a PDF). 
 
 Lo scenario di utilizzo può variare a seconda del carico di lavoro:
 - In ambienti di ridotte dimensioni (carico di lavoro non elevato) entrambi i processi possono essere installati (e configurati) sullo stesso server;
@@ -27,12 +27,12 @@ In base alla struttura appena descritta, è quindi possibile utilizzare le libre
 
 #### FCS
 
-**it.tredi.abstract-fcs**: Elaborazione vera e propria dei files. Logiche di conversione e estrazione testo dai file (integrazione con le varie dipendenze software).
+[**it.tredi.abstract-fcs**](https://github.com/agenziaentrateriscossione/abstract-fcs): Elaborazione vera e propria dei files. Logiche di conversione e estrazione testo dai file (integrazione con le varie dipendenze software).
 
 **it.tredi.docway-fcs**: Implementazione per DocWay di FCS (aggiornamento dell'esito dei lavori, registrazione dei file convertiti, indicizzazione del testo contenuto negli allegati del documento, etc.).
 ___
 
-> #### Per una visione complessiva del modulo e delle sue dipendenze si rimanda alla pagina [riuso](https://github.com/3dinformatica/riuso/blob/master/README.md)
+> #### Per una visione complessiva del modulo e delle sue dipendenze si rimanda alla pagina [riuso](https://github.com/agenziaentrateriscossione/riuso)
 ___
 ### Prerequisiti:
 1. _Java8_
