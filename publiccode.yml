@@ -30,7 +30,7 @@ maintenance:
 legal:
   license: AGPL-3.0-or-later
   mainCopyrightOwner: Agenzia delle Entrate-Riscossione (ADER)
-  repoOwner: 3D Informatica srl
+  repoOwner: Agenzia delle Entrate-Riscossione (ADER)
   authorsFile: 3D Informatica srl
 localisation:
   localisationReady: false
