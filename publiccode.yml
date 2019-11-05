@@ -47,7 +47,7 @@ it:
 description:
   it:
     genericName: Modulo FCS
-    documentation: 'https://github.com/agenziaentrateriscossione/docway-fcs'
+    documentation: 'https://github.com/agenziaentrateriscossione/riuso'
     shortDescription: Servizio di estrazione testo e conversione di files per applicativo DocWay
     longDescription: |2
        I due moduli FCA (File Conversion Agent) e FCS (File Conversion Service)  rappresentano le componenti di servizio dell'applicazione DocWay,  strettamente collegate tra loro, attraverso le quali vengono rese  possibili le seguenti operazioni (funzionalità) su file allegati alle  registrazioni di protocollo: 
