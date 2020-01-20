@@ -1,4 +1,4 @@
-# Gestione documentale DocWay - Modulo FCS
+# Sistema di Gestione documentale DocWay comprensivo del Modulo FCS
 
 ## Modulo per la conversione degli allegati
 
