@@ -3,7 +3,7 @@
 # More info at https://github.com/italia/publiccode.yml
 
 publiccodeYmlVersion: '0.2'
-name: Gestione documentale DocWay - FCS
+name: Sistema di Gestione documentale DocWay comprensivo del Modulo FCS
 url: 'https://github.com'
 releaseDate: '2019-02-25'
 developmentStatus: stable
