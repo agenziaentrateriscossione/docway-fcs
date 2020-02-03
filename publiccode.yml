@@ -5,6 +5,7 @@
 publiccodeYmlVersion: '0.2'
 name: Sistema di Gestione documentale DocWay comprensivo del Modulo FCS
 url: 'https://github.com'
+logo: logo.png
 releaseDate: '2019-02-25'
 developmentStatus: stable
 softwareVersion: 1.0.3
